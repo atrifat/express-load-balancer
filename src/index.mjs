@@ -117,11 +117,11 @@ const loadBalancerHandler = async (req, res) => {
         if (ENABLE_CACHE) responseCache.set(req_key, response.data);
 
         // Send back the response data from application server to client
-        res.send(response.data);
+        res.status(response.status).header(response.headers).send(response.data);
     }
     catch (err) {
         // Send back the error message
-        // console.error(err);
+        console.error(err);
         const statusCode = err.response ? err.response.status : 500;
         const message = err.response ? typeof err.response.data.message ? err.response.data.message : err.response.reason.message || err.response.code || err.message || "Server error!" : "Server error!";
         res.status(statusCode).send(message);
