@@ -124,7 +124,7 @@ const loadBalancerHandler = async (req, res) => {
         console.error(err);
         const statusCode = err.response ? err.response.status : 500;
         const message = err.response ? typeof err.response.data.message ? err.response.data.message : err.response.reason.message || err.response.code || err.message || "Server error!" : "Server error!";
-        res.status(statusCode).send(message);
+        res.status(statusCode).header(err.response.headers).send(message);
     }
 }
 
